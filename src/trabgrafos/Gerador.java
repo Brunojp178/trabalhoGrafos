@@ -13,11 +13,6 @@ import java.util.ArrayList;
  */
 public class Gerador {
     
-    
-    
-    
-    
-    
     // Gera lista de adjacencia
     public ArrayList<String> listaDeAdjacencia(int matrizAdjacencia[][], int qtdVertice) {
         ArrayList<String> listaComp = new ArrayList<String>();
@@ -59,8 +54,46 @@ public class Gerador {
         return matrizAd;
     }
     
+    // Gerar matriz de adjacencia 2.
+    public int[][] matrizAdjacencia2(ArrayList<Integer> mat, int qtdVertice) {
+        
+    	int col = qtdVertice + 1, lin = col;
+    	int[][] matrizAd = new int[lin][col];
+    	matrizAd[0][0] = 0;
+    	for(int i = 0; i < lin; i++) {
+			for(int j = 0; j < col; j++) {
+				matrizAd[i][j] = 0;
+				if(i == 0) {
+					if(j > 0) matrizAd[i][j] = mat.get(j - 1);
+				}if(j == 0) {
+					if(i > 0) matrizAd[i][j] = mat.get(i - 1);
+				}
+			}
+		}
+        return matrizAd;
+    }
+    
     // Gerar matriz de incidencia
     public int[][] matrizIncidencia(ArrayList<Integer> mat, int maiorV, int maiorA) {
+        int j = 0;
+
+        int[][] matrizIn = new int[maiorV][maiorA]; //criar no tamanho do maior vértice/maior aresta desbuga
+        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        System.out.print("---");
+        for (int p = 0; p < maiorA; p++) {
+            System.out.print(alphabet[p] + " ");
+        }
+        for (int i = 0; i < mat.size() / 2; i++) { //não trata laço no momento
+            matrizIn[mat.get(j) - 1][mat.get(j + 1) - 1] = 1;
+            j = j + 2;
+        }
+        printarMatriz2(matrizIn, maiorV, maiorA);
+        System.out.println("\n\n\n");
+        return matrizIn;
+    }
+    
+ // Gerar matriz de incidencia 2
+    public int[][] matrizIncidencia2(ArrayList<Integer> mat, int maiorV, int maiorA) {
         int j = 0;
 
         int[][] matrizIn = new int[maiorV][maiorA]; //criar no tamanho do maior vértice/maior aresta desbuga
@@ -98,6 +131,17 @@ public class Gerador {
                 System.out.print(mat[i][j] + " ");
             }
         }
+    }
+    
+    //TODO Arvore geradora minima
+    
+    public int[][] gerarArvore(Grafo gf) {
+    	if(!gf.floyd_warshall()) {
+    		System.out.println();
+    		return null;
+    	}
+    	
+    	return null;
     }
     
 }

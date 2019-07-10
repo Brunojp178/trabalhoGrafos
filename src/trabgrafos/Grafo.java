@@ -16,6 +16,8 @@ public class Grafo {
     
     private int qntArestas;
     private int qntVertices;
+    private ArrayList<Integer> vertices = new ArrayList<>();
+    ArrayList<String> arestas = new ArrayList<>();
     private int[][] matrizAd;
     private int[][] matrizIn;
     private ArrayList<String> listaAdj;
@@ -29,8 +31,7 @@ public class Grafo {
 		try {
 			mat = arq.lerArquivo();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Erro! - arquivo não encontrado.");
 		}
 
         //pegando a quantidade de arestas/vertices a serem criados
@@ -43,6 +44,43 @@ public class Grafo {
         listaAdj = gen.listaDeAdjacencia(matrizAd, qntVertices);
     }
     
+    public Grafo(String arquivo, String a){
+        Gerador gen = new Gerador();
+        Arquivo arq = new Arquivo(arquivo, ",", "-");
+        
+        //recebendo a matriz do arquivo 
+        ArrayList<Integer> mat = new ArrayList<Integer>();
+		try {
+			mat = arq.lerArquivo2();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+        //pegando a quantidade de arestas/vertices a serem criados
+		vertices = mat;
+		for(int i = 0; i < mat.size(); i++) {
+			if(!(i %  2 == 0)) {
+				arestas.add("|" + vertices.get(i - 1) + "-" + vertices.get(i + 1) + "-" + vertices.get(i) + "|");
+				vertices.remove(i);
+			}
+		}
+		// buscando valores repetidos dentro do vetor de vertices.
+		for(int i = 0; i < vertices.size(); i++) {
+			for(int j = 0; j < vertices.size(); j++) {
+				if(i != j) {
+					if(vertices.get(i) == vertices.get(j)) {
+						vertices.remove(j);
+					}
+				}
+			}
+		}
+        qntVertices = vertices.size();
+        qntArestas = arestas.size();
+        // Gerando as matrizes e lista de adj
+        matrizAd = gen.matrizAdjacencia2(vertices, qntVertices);
+        //matrizIn = gen.matrizIncidencia2(mat, qntVertices, qntArestas);
+        //listaAdj = gen.listaDeAdjacencia2(matrizAd, qntVertices);
+    }
     
     // Methods =====================================================================================================
     
@@ -151,7 +189,7 @@ public class Grafo {
     }
     
     //algoritmo para encontrar o fecho transitivo de um grafo (matriz que mostra 
-    public void floyd_warshall() {
+    public boolean floyd_warshall() {
         Gerador gen = new Gerador();
         int graph [][] = matrizAd;
         for (int k = 0; k < qntVertices; k++) {
@@ -163,9 +201,11 @@ public class Grafo {
                 }
             }
         }
+        // testeConexo recebe a matriz q a função floyd alterou.
         boolean y = testeConexo(graph, qntVertices);
         gen.printarMatriz(graph, qntVertices);
         System.out.println("\n");
         System.out.println("É conexo? " + y);
+        return y;
     }
 }

@@ -22,13 +22,14 @@ public class Arquivo {
     public String delimitador2;
     public int retorno[];
     public int maiorA, maiorV, maiorG;
+    
     public Arquivo(String nome, String delimitador1, String delimitador2) {
         this.nome = nome;
         this.delimitador1 = delimitador1;
         this.delimitador2 = delimitador2;
     }
 
-    ArrayList<Integer> lerArquivo() throws FileNotFoundException {
+    public ArrayList<Integer> lerArquivo() throws FileNotFoundException {
         ArrayList<Integer> retorno = new ArrayList<Integer>();
         ArrayList<Integer> retorno2 = new ArrayList<Integer>();
         ArrayList<Integer> retorno3 = new ArrayList<Integer>();
@@ -36,6 +37,7 @@ public class Arquivo {
         FileReader f = new FileReader(this.getNome() + ".txt");
         Scanner arquivoLido = new Scanner(f);
         arquivoLido.useDelimiter(this.getDelimitador1());
+        
         while (arquivoLido.hasNext()) {
             String lido = arquivoLido.next();
             lido = lido.replaceAll("\r\n", "");
@@ -51,8 +53,33 @@ public class Arquivo {
             maiorG = maiorV;
         else
             maiorG = maiorA;
+        
         arquivoLido.close();
         return retorno;
+    }
+    
+    public ArrayList<Integer> lerArquivo2() throws FileNotFoundException{
+    	FileReader f;
+    	ArrayList<Integer> retorno = new ArrayList<Integer>();
+		
+		f = new FileReader(this.getNome() + ".txt");
+		Scanner arquivoLido = new Scanner(f);
+		arquivoLido.useDelimiter(this.getDelimitador1());
+		while(arquivoLido.hasNext()) {
+			String lido = arquivoLido.next();
+			lido = lido.replaceAll("\r\n", "");
+			
+            String parts[] = lido.split(this.getDelimitador2());
+            
+            int v1 = Integer.parseInt(parts[0]);
+            int peso = Integer.parseInt(parts[1]);
+            int v2 = Integer.parseInt(parts[2]);
+            
+            retorno.add(v1);
+            retorno.add(peso);
+            retorno.add(v2);
+		}
+		return retorno;
     }
 
     public int getMaiorA() {

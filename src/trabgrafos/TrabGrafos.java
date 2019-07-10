@@ -17,6 +17,8 @@ public class TrabGrafos {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+    	
+    	/*
     	Grafo gf = new Grafo("grafo");
     	
     	// Printando lista de adj
@@ -78,6 +80,10 @@ public class TrabGrafos {
         System.out.println("É ciclo? " + cicloFinal);
         
         gf.floyd_warshall();
+    	*/
+    	
+    	// Não apagar comentarios acima, primeiros testes.
+    	Grafo gf = new Grafo("grafo2", "");
     	
     }
     
