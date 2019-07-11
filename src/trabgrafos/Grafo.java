@@ -150,7 +150,7 @@ public class Grafo {
         return grau;
     }
     
-    //algoritmo para encontrar o fecho transitivo de um grafo (matriz que mostra 
+    //algoritmo para en 
     public void floyd_warshall() {
         Gerador gen = new Gerador();
         int graph [][] = matrizAd;
